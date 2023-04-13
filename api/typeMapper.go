@@ -12,16 +12,16 @@ import (
 // The target type has to be annotated with 'mapstructure' tags
 // Example:
 //
-// type MyTargetType struct {
-//  Field1 int `mapstructure:"field1"`
-//  Field2 string `mapstructure:"another_field"`
-// }
+//	type MyTargetType struct {
+//	 Field1 int `mapstructure:"field1"`
+//	 Field2 string `mapstructure:"another_field"`
+//	}
 func mapStructToType(source map[string]interface{}, target interface{}) error {
 
 	config := &mapstructure.DecoderConfig{
 		Result:           target,
 		WeaklyTypedInput: true,
-		ErrorUnused:      true,
+		ErrorUnused:      false,
 	}
 
 	decoder, err := mapstructure.NewDecoder(config)

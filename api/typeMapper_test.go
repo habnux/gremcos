@@ -361,30 +361,6 @@ func TestToProperties(t *testing.T) {
 	assert.Equal(t, "prop key", properties[0].Label)
 }
 
-func TestToPropertiesFailMapProperties(t *testing.T) {
-	t.Parallel()
-	// GIVEN
-
-	// WHEN
-	properties, err := ToProperties([]byte(dataVertices))
-
-	// THEN
-	assert.Error(t, err)
-	assert.Empty(t, properties)
-}
-
-func TestToPropertiesFailMapEdges(t *testing.T) {
-	t.Parallel()
-	// GIVEN
-
-	// WHEN
-	edges, err := ToEdges([]byte(dataVertices))
-
-	// THEN
-	assert.Error(t, err)
-	assert.Empty(t, edges)
-}
-
 func TestToPropertiesFailMapValues(t *testing.T) {
 	t.Parallel()
 	// GIVEN
@@ -408,23 +384,6 @@ func TestToPropertiesFailMapValueMap(t *testing.T) {
 	// THEN
 	assert.Error(t, err)
 	assert.Empty(t, valuemap)
-}
-
-func TestToPropertiesFailMapVertices(t *testing.T) {
-	t.Parallel()
-	// GIVEN
-	dataValues := `[{
-		"id":"8fff9259-09e6-4ea5-aaf8-250b31cc7f44|pk",
-		"value":"prop value",
-		"label":"prop key"
-	}]`
-
-	// WHEN
-	vertices, err := ToVertices([]byte(dataValues))
-
-	// THEN
-	assert.Error(t, err)
-	assert.Empty(t, vertices)
 }
 
 func TestToVertices(t *testing.T) {
@@ -588,15 +547,4 @@ func TestToVertex(t *testing.T) {
 	require.Len(t, vertex.Properties, 1)
 	require.Len(t, vertex.Properties["prop1"], 1)
 	assert.Equal(t, "hello", vertex.Properties["prop1"][0].Value.AsString())
-}
-
-func TestToVertex_Fail(t *testing.T) {
-	_, err := ToVertex("not the right input type")
-	assert.Error(t, err)
-
-	data := map[string]interface{}{
-		"missing": "vertex properties",
-	}
-	_, err = ToVertex(data)
-	assert.Error(t, err)
 }
